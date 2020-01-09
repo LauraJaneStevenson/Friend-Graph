@@ -41,6 +41,25 @@ class FriendGraph(object):
 		person1.adjacent.add(person2)
 		person2.adjacent.add(person1)
 
+	def are_connected(self,person1,person2):
+		"""Checks to see if two freinds are connected using bredth first search"""
+		possible_nodes = []
+		acounted_for = set()
+
+
+		possible_nodes.append(person1)
+		seen_nodes.add(person1)
+
+		while len(possible_nodes) != 0:
+			person = possible_nodes.pop(0)
+			if person == person2:
+				return True
+			else:
+				for friend in person.adjacent - accounted_for:
+					possible_nodes.append(friend)
+					accounted_for.add(friend)
+
+		return False
 
 
 harry = PersonNode("Harry")
