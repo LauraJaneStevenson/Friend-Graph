@@ -44,13 +44,14 @@ class FriendGraph(object):
 	def are_connected(self,person1,person2):
 		"""Checks to see if two freinds are connected using bredth first search"""
 		possible_nodes = []
-		acounted_for = set()
+		accounted_for = set()
 
 
 		possible_nodes.append(person1)
-		seen_nodes.add(person1)
+		accounted_for.add(person1)
 
 		while len(possible_nodes) != 0:
+
 			person = possible_nodes.pop(0)
 			if person == person2:
 				return True
@@ -60,6 +61,55 @@ class FriendGraph(object):
 					accounted_for.add(friend)
 
 		return False
+
+
+
+
+	def connection_level(self,person1,person2):
+			"""Checks two nodes level of connecton, first connection, second connection etc."""
+			
+			if self.are_connected(person1,person2):
+
+				possible_nodes = []
+				accounted_for = set()
+
+				connection = 1
+
+				possible_nodes.append(person1)
+				accounted_for.add(person1)
+
+				added = 0
+				popped = 0
+
+				while len(possible_nodes) != 0:
+					
+					person = possible_nodes.pop(0)
+					popped += 1
+
+					if person == person2:
+						f"{person1.name} and {person2.name} are {connection} connections"
+					else:
+						for friend in person.adjacent - accounted_for:
+							possible_nodes.append(friend)
+							accounted_for.add(friend)
+							added += 1
+
+					if added == popped:
+
+						connection += 1
+
+				return f"{person1.name} and {person2.name} are {connection} connections"
+
+			else:
+
+				return f"{person1.name} and {person2.name} are not connected."
+
+
+
+
+
+
+
 
 
 harry = PersonNode("Harry")
@@ -85,6 +135,11 @@ friends.connect_friends(ron, fred)
 friends.connect_friends(draco, crabbe)
 friends.connect_friends(draco, goyle)
 
+
+
+print(friends.connection_level(harry,ron))
+print(friends.connection_level(ron,trevor))
+print(friends.connection_level(harry,draco))
 
 
 
